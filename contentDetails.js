@@ -1,16 +1,21 @@
+
+
 console.clear()
+
+let toast = document.createElement('div')
+toast.id = 'toast'
+let toastCart = document.createElement('div')
+toastCart.id = 'toast-cart'
 
 let id = location.search.split('?')[1]
 console.log(id)
 
-if(document.cookie.indexOf(',counter=')>=0)
-{
+if (document.cookie.indexOf(',counter=') >= 0) {
     let counter = document.cookie.split(',')[1].split('=')[1]
     document.getElementById("badge").innerHTML = counter
 }
 
-function dynamicContentDetails(ob)
-{
+function dynamicContentDetails(ob) {
     let mainContainer = document.createElement('div')
     mainContainer.id = 'containerD'
     document.getElementById('containerProduct').appendChild(mainContainer);
@@ -19,9 +24,9 @@ function dynamicContentDetails(ob)
     imageSectionDiv.id = 'imageSection'
 
     let imgTag = document.createElement('img')
-     imgTag.id = 'imgDetails'
-     //imgTag.id = ob.photos
-     imgTag.src = ob.preview
+    imgTag.id = 'imgDetails'
+    //imgTag.id = ob.photos
+    imgTag.src = ob.preview
 
     imageSectionDiv.appendChild(imgTag)
 
@@ -63,17 +68,15 @@ function dynamicContentDetails(ob)
     productPreviewDiv.appendChild(h3ProductPreviewDiv)
 
     let i;
-    for(i=0; i<ob.photos.length; i++)
-    {
+    for (i = 0; i < ob.photos.length; i++) {
         let imgTagProductPreviewDiv = document.createElement('img')
         imgTagProductPreviewDiv.id = 'previewImg'
         imgTagProductPreviewDiv.src = ob.photos[i]
-        imgTagProductPreviewDiv.onclick = function(event)
-        {
+        imgTagProductPreviewDiv.onclick = function (event) {
             console.log("clicked" + this.src)
             imgTag.src = ob.photos[i]
-            document.getElementById("imgDetails").src = this.src 
-            
+            document.getElementById("imgDetails").src = this.src
+
         }
         productPreviewDiv.appendChild(imgTagProductPreviewDiv)
     }
@@ -81,16 +84,23 @@ function dynamicContentDetails(ob)
     let buttonDiv = document.createElement('div')
     buttonDiv.id = 'button'
 
+
+
     let buttonTag = document.createElement('button')
     buttonDiv.appendChild(buttonTag)
+    document.body.appendChild(toastCart);
 
     buttonText = document.createTextNode('Add to Cart')
-    buttonTag.onclick  =   function()
-    {
-        let order = id+" "
+    buttonTag.onclick = function () {
+        var cart = document.getElementById("toast-cart");
+            cart.classList.add("show");
+            cart.innerHTML = '<i class="fas fa-shopping-cart cart" style="color: rgb(29, 29, 29)"></i> Product added to cart';
+            setTimeout(function () {
+                cart.classList.remove("show");
+            }, 3000);
+        let order = id + " "
         let counter = 1
-        if(document.cookie.indexOf(',counter=')>=0)
-        {
+        if (document.cookie.indexOf(',counter=') >= 0) {
             order = id + " " + document.cookie.split(',')[0].split('=')[1]
             counter = Number(document.cookie.split(',')[1].split('=')[1]) + 1
         }
@@ -98,6 +108,8 @@ function dynamicContentDetails(ob)
         document.getElementById("badge").innerHTML = counter
         console.log(document.cookie)
     }
+    // buttonTag.onclick = function () {
+    // }
     buttonTag.appendChild(buttonText)
 
 
@@ -111,10 +123,12 @@ function dynamicContentDetails(ob)
     detailsDiv.appendChild(h3)
     detailsDiv.appendChild(para)
     productDetailsDiv.appendChild(productPreviewDiv)
-    
-    
+
+
     productDetailsDiv.appendChild(buttonDiv)
 
+    productDetailsDiv.appendChild(toast)
+    productDetailsDiv.appendChild(toast-cart)
 
     return mainContainer
 }
@@ -125,10 +139,8 @@ function dynamicContentDetails(ob)
 
 let httpRequest = new XMLHttpRequest()
 {
-    httpRequest.onreadystatechange = function()
-    {
-        if(this.readyState === 4 && this.status == 200)
-        {
+    httpRequest.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status == 200) {
             console.log('connected!!');
             let contentDetails = JSON.parse(this.responseText)
             {
@@ -136,12 +148,11 @@ let httpRequest = new XMLHttpRequest()
                 dynamicContentDetails(contentDetails)
             }
         }
-        else
-        {
+        else {
             console.log('not connected!');
         }
     }
 }
 
-httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product/'+id, true)
+httpRequest.open('GET', 'https://5d76bf96515d1a0014085cf9.mockapi.io/product/' + id, true)
 httpRequest.send()  

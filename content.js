@@ -56,11 +56,30 @@ let containerAccessories = document.getElementById("containerAccessories");
 
 let httpRequest = new XMLHttpRequest();
 
-httpRequest.onreadystatechange = function() {
+httpRequest.onreadystatechange = function () {
   if (this.readyState === 4) {
     if (this.status == 200) {
       // console.log('call successful');
-      contentTitle = JSON.parse(this.responseText);
+      contentTitle = JSON.parse(this.responseText); const newProduct = {
+        id: "11",
+        name: "Unisex Silver-Toned Series 3 Smart Watch",
+        preview: "https://www.apple.com/v/airpods-pro/g/images/overview/case_front__r6ng7f1x18a6_large_2x.jpg",
+        photos: [
+          "https://www.apple.com/v/airpods-pro/g/images/overview/case_front__r6ng7f1x18a6_large_2x.jpg",
+          "https://www.apple.com/v/airpods-pro/g/images/overview/case_front__r6ng7f1x18a6_large_2x.jpg",
+          "https://www.apple.com/v/airpods-pro/g/images/overview/case_closed__fn3wuwvygjau_large_2x.jpg"
+        ],
+        description: "Low and high heart rate notifications. Emergency SOS. New Breathe watch faces. Automatic workout detection. New yoga and hiking workouts. Advanced features for runners like cadence and pace alerts. New head-to-head competitions. Activity sharing with friends. Personalized coaching. Monthly challenges and achievement awards. Walkie-Talkie, make phone calls, and send messages. Listen to Apple Music and Apple Podcasts. Use Siri in all-new ways. Silver aluminum case. Built-in GPS, GLONASS, Galileo, and QZSS. S3 with dual-core processor. W2 Apple wireless chip. Barometric altimeter Capacity 8GB. Optical heart sensor. 1 Year Manufacture Warranty",
+        size: [
+          // Add the size data if available
+        ],
+        isAccessory: true,
+        brand: "Apple",
+        price: 31999
+      };
+
+      contentTitle.push(newProduct);
+
       if (document.cookie.indexOf(",counter=") >= 0) {
         var counter = document.cookie.split(",")[1].split("=")[1];
         document.getElementById("badge").innerHTML = counter;
@@ -77,6 +96,15 @@ httpRequest.onreadystatechange = function() {
             dynamicClothingSection(contentTitle[i])
           );
         }
+        // function load(url) {
+        //     req = new XMLHttpRequest();
+        //     req.open("GET", url, false);
+        //     req.send(null);
+        //     document.getElementById(3).innerHTML = req.responseText;
+        // }
+
+        // const newProductContainer = dynamicContentDetails(newProduct);
+        // document.getElementById('containerProduct').appendChild(newProductContainer);
       }
     } else {
       console.log("call failed!");
